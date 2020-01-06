@@ -1,0 +1,6 @@
+github.com/common-nighthawk/go-figure v0.0.0-20190529165535-67e0ed34491a h1:kTv7wPomOuRf17BKQKO5Y6GrKsYC52XHrjf26H6FdQU=
+github.com/common-nighthawk/go-figure v0.0.0-20190529165535-67e0ed34491a/go.mod h1:mk5IQ+Y0ZeO87b858TlA645sVcEcbiX6YqP98kt+7+w=
+github.com/gorilla/websocket v1.4.1 h1:q7AeDBpnBk8AogcD4DSag/Ukw/KV+YhzLj2bP5HvKCM=
+github.com/gorilla/websocket v1.4.1/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
+github.com/joho/godotenv v1.3.0 h1:Zjp+RcGpHhGlrMbJzXTrZZPrWj+1vfm90La1wgB6Bhc=
+github.com/joho/godotenv v1.3.0/go.mod h1:7hK45KPybAkOC6peb+G5yklZfMxEjkZhHbwpqxOKXbg=

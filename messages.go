@@ -7,13 +7,14 @@ import (
 )
 
 const ARENA_LOGIN = 101
+const ARENA_HEARTBEAT = 100
 
 type ArenaMessage struct {
 	Bm struct {
-		Payload   map[string]interface{} `json:"payload"`
+		Payload   map[string]interface{} `json:"payload,omitempty"`
 		Pid       int                    `json:"pid"`
 		Csq       int                    `json:"csq"`
-		SessionID string                 `json:"sessionId"`
+		SessionID string                 `json:"sessionId,omitempty"`
 	} `json:"bm"`
 }
 
@@ -31,4 +32,8 @@ func (msg *ArenaMessage) mkCmd(command int, params map[string]interface{}) []byt
 	data = append(header, data...)
 	log.Println(string(data))
 	return data
+}
+
+func processMessage(rawMessage []byte) {
+
 }

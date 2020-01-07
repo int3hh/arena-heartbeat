@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -17,6 +18,7 @@ import (
 var csq int
 var c *websocket.Conn
 var sid string
+var pairs []string
 var done chan struct{}
 
 func main() {
@@ -30,6 +32,10 @@ func main() {
 	arenaUser := os.Getenv("ARENA_USER")
 	arenaPass := os.Getenv("ARENA_PASS")
 	arenaHost := os.Getenv("ARENA_HOST")
+	rawPairs := os.Getenv("PAIRS")
+	if len(rawPairs) > 0 {
+		pairs = strings.Split(rawPairs, ",")
+	}
 
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
@@ -50,8 +56,7 @@ func main() {
 			c, _, err = websocket.DefaultDialer.Dial(u.String(), headers)
 			if err != nil {
 				log.Println("dial error, waiting 2 minutes :", err)
-				os.Exit(1)
-				//	time.Sleep(time.Minute * 2)
+				time.Sleep(time.Minute * 2)
 				continue
 			}
 			running = true
@@ -69,6 +74,7 @@ func main() {
 						return
 					}
 					log.Println("recv: ", string(message))
+					processMessage(message)
 				}
 			}()
 		}
@@ -80,8 +86,7 @@ func main() {
 
 		case <-ticker.C:
 			log.Println("Sending ping ... ")
-			c.WriteMessage(websocket.TextMessage, (&ArenaMessage{}).mkCmd(ARENA_LOGIN, map[string]interface{}{"@class": "p.Login",
-				"device": "WebT", "username": arenaUser, "password": arenaPass, "totp": 0}))
+			c.WriteMessage(websocket.TextMessage, (&ArenaMessage{}).mkCmd(ARENA_HEARTBEAT, nil))
 
 		case <-interrupt:
 			log.Println("Sigterm received quitting !")

@@ -18,6 +18,7 @@ import (
 var csq int
 var c *websocket.Conn
 var sid string
+var uid int32
 var pairs []string
 var done chan struct{}
 
@@ -39,7 +40,7 @@ func main() {
 
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
-	ticker := time.NewTicker(time.Second * 10)
+	ticker := time.NewTicker(time.Minute)
 	defer ticker.Stop()
 
 	running := false
@@ -74,7 +75,12 @@ func main() {
 						return
 					}
 					log.Println("recv: ", string(message))
-					processMessage(message)
+					reply := processMessage(message)
+					if reply != nil {
+						for _, msg := range reply {
+							c.WriteMessage(websocket.TextMessage, msg)
+						}
+					}
 				}
 			}()
 		}

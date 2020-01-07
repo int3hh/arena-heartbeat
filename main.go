@@ -19,7 +19,7 @@ var csq int
 var c *websocket.Conn
 var sid string
 var uid int32
-var pairs []string
+var symbols []string
 var done chan struct{}
 
 func main() {
@@ -33,9 +33,9 @@ func main() {
 	arenaUser := os.Getenv("ARENA_USER")
 	arenaPass := os.Getenv("ARENA_PASS")
 	arenaHost := os.Getenv("ARENA_HOST")
-	rawPairs := os.Getenv("PAIRS")
-	if len(rawPairs) > 0 {
-		pairs = strings.Split(rawPairs, ",")
+	rawSymbols := os.Getenv("SYMBOLS")
+	if len(rawSymbols) > 0 {
+		symbols = strings.Split(rawSymbols, ",")
 	}
 
 	interrupt := make(chan os.Signal, 1)

@@ -47,7 +47,7 @@ func processMessage(rawMessage []byte) [][]byte {
 			userInfo := msg.Bm.Payload["user"].(map[string]interface{})
 			sid = userInfo["sid"].(string)
 			uid = msg.Bm.User
-			for _, symbol := range pairs {
+			for _, symbol := range symbols {
 				reply = append(reply, (&ArenaMessage{}).mkCmd(ARENA_SUBSCRIBE, map[string]interface{}{"@class": "p.Subscription",
 					"exchange": "BVB", "symbol": symbol}))
 			}
